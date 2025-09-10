@@ -1,5 +1,5 @@
 package edu.eci.co;
 
-public class Facade {
+public class FacadeServer {
     
 }
