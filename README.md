@@ -31,7 +31,7 @@ La solución consta de un servidor backend que responde a solicitudes HTTP GET d
 
 3. compile
    
-    mcn clean install
+    mvn clean install
 
 4. ejecute en una terminal el BackendServer
    
