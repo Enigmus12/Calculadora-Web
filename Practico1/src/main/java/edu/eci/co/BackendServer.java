@@ -16,7 +16,7 @@ public class BackendServer {
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            new Thread(() -> handleClient(clientSocket)).start();
+            handleClient(clientSocket);
         }
     }
 
