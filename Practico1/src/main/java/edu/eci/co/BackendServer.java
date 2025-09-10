@@ -49,7 +49,7 @@ public class BackendServer {
 
             // Respuesta HTTP
             out.println("HTTP/1.1 200 OK");
-            out.println("Content-Type: application/json");
+            out.println("Content-Type: text/html");
             out.println();
             out.println(outputLine);
 

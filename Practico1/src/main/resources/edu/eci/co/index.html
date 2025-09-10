@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Estadísticas</title>
+</head>
+<body>
+<h1>Calculadora Web</h1>
+
+<!-- Formulario Agregar -->
+<form onsubmit="addNumber(); return false;">
+    <input type="number" id="numInput" step="any" required>
+    <input type="submit" value="Agregar">
+</form>
+
+<!-- Formulario Listar -->
+<form onsubmit="listNumbers(); return false;">
+    <input type="submit" value="Listar">
+</form>
+
+<!-- Formulario Borrar -->
+<form onsubmit="clearNumbers(); return false;">
+    <input type="submit" value="Borrar">
+</form>
+
+<!-- Formulario Estadísticas -->
+<form onsubmit="getStats(); return false;">
+    <input type="submit" value="Estadísticas">
+</form>
+
+<pre id="output"></pre>
+
+<script>
+const output = document.getElementById("output");
+
+function sendGet(path, callback) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () { callback(this.responseText); }
+    xhttp.open("GET", path);
+    xhttp.send();
+}
+
+function addNumber() {
+    const num = document.getElementById("numInput").value;
+    sendGet("/add?x=" + num, res => output.textContent = res);
+}
+
+function listNumbers() {
+    sendGet("/list", res => output.textContent = res);
+}
+
+function clearNumbers() {
+    sendGet("/clear", res => output.textContent = res);
+}
+
+function getStats() {
+    sendGet("/stats", res => output.textContent = res);
+}
+</script>
+</body>
+</html>
