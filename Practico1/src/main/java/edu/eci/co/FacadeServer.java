@@ -17,7 +17,7 @@ public class FacadeServer {
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            new Thread(() -> handleClient(clientSocket)).start();
+            handleClient(clientSocket);
         }
     }
 
@@ -34,14 +34,16 @@ public class FacadeServer {
             if (tokens.length < 2) return;
             String path = tokens[1];
 
-            String outputLine;
-
             if (path.equals("/cliente")) {
-                outputLine = getClientHtml();
-            } else {
-                outputLine = forwardToBackend(path);
+                String html = getClientHtml();
+                out.println("HTTP/1.1 200 OK");
+                out.println("Content-Type: text/html");
+                out.println();
+                out.println(html);
+                return;
             }
 
+            String outputLine = forwardToBackend(path);
             out.println("HTTP/1.1 200 OK");
             out.println("Content-Type: application/json");
             out.println();
@@ -82,17 +84,22 @@ public class FacadeServer {
 
     private static String getClientHtml() {
         // Retorna un JSON con HTML dentro
-        String html = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Calculadora</title></head><body>" +
+        return"<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Calculadora</title></head><body>" +
                 "<h1>Calculadora Web</h1>" +
                 "<form onsubmit='addNumber(); return false;'><input type='number' id='numInput' step='any' required><input type='submit' value='Agregar'></form>" +
                 "<form onsubmit='listNumbers(); return false;'><input type='submit' value='Listar'></form>" +
                 "<form onsubmit='clearNumbers(); return false;'><input type='submit' value='Borrar'></form>" +
                 "<form onsubmit='getStats(); return false;'><input type='submit' value='Estadísticas'></form>" +
                 "<pre id='output'></pre>" +
-                "<script>const output=document.getElementById('output');function sendGet(path,callback){const xhttp=new XMLHttpRequest();xhttp.onload=function(){callback(this.responseText);};xhttp.open('GET',path);xhttp.send();}function addNumber(){const num=document.getElementById('numInput').value;sendGet('/add?x='+num,res=>output.textContent=res);}function listNumbers(){sendGet('/list',res=>output.textContent=res);}function clearNumbers(){sendGet('/clear',res=>output.textContent=res);}function getStats(){sendGet('/stats',res=>output.textContent=res);}</script>" +
+                "<script>const output=document.getElementById('output');" +
+                "function sendGet(path,callback){const xhttp=new XMLHttpRequest();xhttp.onload=function(){callback(this.responseText);};xhttp.open('GET',path);xhttp.send();}" +
+                "function addNumber(){const num=document.getElementById('numInput').value;sendGet('/add?x='+num,res=>output.textContent=res);}" +
+                "function listNumbers(){sendGet('/list',res=>output.textContent=res);}function clearNumbers(){sendGet('/clear',res=>output.textContent=res);}"+
+                "function getStats(){sendGet('/stats',res=>output.textContent=res);}</script>" +
                 "</body></html>";
-        return "{\"status\":\"OK\",\"html\":\"" + html.replace("\"", "\\\"") + "\"}";
+
     }
 
     
 }
+

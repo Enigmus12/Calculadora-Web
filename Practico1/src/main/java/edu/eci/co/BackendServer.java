@@ -49,7 +49,7 @@ public class BackendServer {
 
             // Respuesta HTTP
             out.println("HTTP/1.1 200 OK");
-            out.println("Content-Type: text/html");
+            out.println("Content-Type: application/json");
             out.println();
             out.println(outputLine);
 
@@ -57,7 +57,7 @@ public class BackendServer {
             e.printStackTrace();
         } finally {
             try { clientSocket.close(); } catch (IOException e) {}
-        }   
+        }
     }
 
     private static String handleAdd(String path) {
