@@ -22,20 +22,26 @@ La solución consta de un servidor backend que responde a solicitudes HTTP GET d
 ## Ejecutar y compilar 
 
 1. clone el repositorio
+   
     https://github.com/Enigmus12/Calculadora-Web.git
 
-2. acceda a Practica1 
+2. acceda a Practica1
+   
     cd Practica1
 
-3. compile 
+3. compile
+   
     mcn clean install
 
 4. ejecute en una terminal el BackendServer
+   
     java -cp target/classes edu.eci.co.BackendServer
 
 5. Ejecute en otra terminal la clase de FacadeServer
+    
     java -cp target/classes edu.eci.co.FacadeServer 
 
-6. abre el siguiente link 
+6. abre el siguiente link
+    
     http://localhost:9000/cliente
 
